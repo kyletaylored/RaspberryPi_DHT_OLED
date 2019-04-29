@@ -74,7 +74,7 @@ disp.display()
 
 # Sensor should be set to Adafruit_DHT.DHT11,
 # Adafruit_DHT.DHT22, or Adafruit_DHT.AM2302.
-sensor = Adafruit_DHT.DHT11
+sensor = Adafruit_DHT.AM2302
 
 # Example using a Beaglebone Black with DHT sensor
 # connected to pin P8_11.
@@ -89,18 +89,19 @@ while True:
 	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 	if humidity is not None and temperature is not None:
 		sleep(5)
-		str_temp = ' {0:0.2f} *C '.format(temperature)	
+		temperature = round(1.8*temperature+32, 2)
+		str_temp = ' {0:0.2f} *F '.format(temperature)	
 		str_hum  = ' {0:0.2f} %'.format(humidity)
-		print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))	
+		print('Temp={0:0.1f}*F  Humidity={1:0.1f}%'.format(temperature, humidity))	
 		draw.rectangle((0,0,width,height), outline=0, fill=0)
 		#disp.clear()
-		#disp.display()		
-		draw.text((3, top),    'Temperature/Humidity',  font=font, fill=255)
+		#disp.display()
+		draw.text((3, top),    ' Temperature / Humidity',  font=font, fill=255)
 		draw.text((x, top+16), str_temp, font=font18, fill=255)
 		draw.text((x, top+36), str_hum, font=font18, fill=255)
 		disp.image(image)
-		disp.display()	
+		disp.display()
 	else:
-		print('Failed to get reading. Try again!')	
+		print('Failed to get reading. Try again!')
 		sleep(10)
 	
